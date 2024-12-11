@@ -1,13 +1,19 @@
 import React from "react";
 import { Table } from "../Table";
-import { withKnobs, select } from '@storybook/addon-knobs';
+import { withKnobs, array , text , select} from '@storybook/addon-knobs';
 
 export default {
-    title: "Table - A Customizable React Table Component",
+    title: "Table/Dynamic Rows and Headers",
     component: Table,
     argTypes: {
-        rows: { control: '' },
-        headers: { control: '' },
+        rows: { control: {
+                    type: 'array',
+                    seprator: ','
+                }},
+        headers: {  control: {
+                    type: 'array',
+                    seprator: ','
+                } },
         theme: {
             control: {
                 type: "select",
@@ -27,5 +33,5 @@ Default.args = {
         ['M.Nadeem', 'Akram', 'nadeemakram4436@gmail.com', '03021436596']
     ],
     headers: ['First Name', 'Last Name', 'Email', 'Phone No.'],
-    theme: "Light"
+    theme: "Dark"
 };

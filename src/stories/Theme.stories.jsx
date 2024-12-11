@@ -3,7 +3,7 @@ import { Table } from "../Table";
 import { withKnobs, select } from '@storybook/addon-knobs';
 
 export default {
-    title: "Table - A Customizable React Table Component",
+    title: "Table/Theme",
     component: Table,
     argTypes: {
         rows: { control: '' },
@@ -11,7 +11,7 @@ export default {
         theme: {
             control: {
                 type: "select",
-                option: ["Dark , Light"]
+                options: ["Dark , Light"]
             }
         }
     },
@@ -27,5 +27,5 @@ Default.args = {
         ['M.Nadeem', 'Akram', 'nadeemakram4436@gmail.com', '03021436596']
     ],
     headers: ['First Name', 'Last Name', 'Email', 'Phone No.'],
-    theme: "Light"
+    theme: "Dark"
 };

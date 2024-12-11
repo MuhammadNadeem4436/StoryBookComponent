@@ -1,92 +1,105 @@
 import { useEffect } from "react";
 import React from "react";
 import styles from "./table.module.css";
-import PropType from 'prop-types'
 import PropTypes from "prop-types";
+import { lightTheme, darkTheme } from "./Theme";
 
 export const Table = ({
-    rows,
-    headers,
-    borderWidth = "medium",
-    cellPadding = "medium",
-    cellTextColor = "black",
-    headerTextColor = "white",
-    cellBorderColor = "#747381",
-    headerBorderColor = "494866",
-    backgroundColor = "gray",
-    headerBackgroundColor = "#65647a"
+  rows,
+  headers,
+  borderWidth = "medium",
+  cellPadding = "medium",
+  theme = "Light",
+  headerTextColor,
+  headerBackgroundColor,
+  headerBorderColor,
+  cellTextColor,
+  backgroundColor,
+  cellBorderColor,
+  onRowClick,
+  onHeaderClick,
 }) => {
-    useEffect(() => {
-        if (headers.length < 1) {
-            throw Error ("Must have at least one header")
-        } else if (!rows.every(r => r.length === headers.length)){
-            throw Error("Row length must equal to header length")
-        }
-    } , [rows , headers])
-
-    const cellPaddingMap = {
-        small: '3px',
-        medium: '8px',
-        large: '15px'
-    };
-    const borderWidthMap = {
-        thin: '1px',
-        medium : '2px',
-        thick: '3px'
+  useEffect(() => {
+    if (headers.length < 1) {
+      throw Error("Must have at least one header");
+    } else if (!rows.every((r) => r.length === headers.length)) {
+      throw Error("Row length must equal to header length");
     }
-    return(
-        <>
-            <div className= {styles.main}>
-                {
-                    headers.map((h, columnIndex) => (
-                        <div key={columnIndex}  className={styles.column}>
-                            <div
-                                className={styles.header}
-                                style={{
-                                    color : headerTextColor,
-                                    padding: cellPaddingMap[cellPadding],
-                                       backgroundColor: headerBackgroundColor,
-                                    border: `${borderWidthMap[borderWidth]}  solid ${headerBorderColor}`
+  }, [rows, headers]);
 
-                                }}
-                                >
-                                {h}
-                            </div>
-                            <div className={styles.rows}>
-                                {
-                                    rows.map((r, rowIndex) => (
-                                        <div
-                                            key={rowIndex}
-                                            className={styles.cell}
-                                            style={{
-                                                color: cellTextColor,
-                                                backgroundColor: backgroundColor,
-                                                padding: cellPaddingMap[cellPadding],
-                                                border: `${borderWidthMap[borderWidth]} solid ${cellBorderColor}}`
-                                            }}
-                                        >
-                                            {r[columnIndex]}
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                        </div>
-                    ))
-                }
+  const cellPaddingMap = {
+    small: "3px",
+    medium: "8px",
+    large: "15px",
+  };
+
+  const borderWidthMap = {
+    thin: "1px",
+    medium: "2px",
+    thick: "3px",
+  };
+
+  // Applying themes
+  const themeStyle = theme === "Dark" ? darkTheme : lightTheme;
+
+  return (
+    <>
+      <div className={styles.main}>
+        {headers.map((h, columnIndex) => (
+          <div key={columnIndex} className={styles.column}>
+            <div
+              className={styles.header}
+              style={{
+                color: headerTextColor || themeStyle.headerTextColor,
+                padding: cellPaddingMap[cellPadding],
+                backgroundColor:
+                  headerBackgroundColor || themeStyle.headerBackgroundColor,
+                border: `${borderWidthMap[borderWidth]} solid ${
+                  headerBorderColor || themeStyle.headerBorderColor
+                }`,
+              }}
+              onClick={() => onHeaderClick(columnIndex)}
+            >
+              {h}
             </div>
-        </>
-    );
+            <div className={styles.rows}>
+              {rows.map((r, rowIndex) => (
+                <div
+                  key={rowIndex}
+                  className={styles.cell}
+                  style={{
+                    color: cellTextColor || themeStyle.cellTextColor,
+                    backgroundColor: backgroundColor || themeStyle.backgroundColor,
+                    padding: cellPaddingMap[cellPadding],
+                    border: `${borderWidthMap[borderWidth]} solid ${
+                      cellBorderColor || themeStyle.cellBorderColor
+                    }`,
+                  }}
+                  onClick={() => onRowClick(rowIndex, columnIndex)}
+                >
+                  {r[columnIndex]}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
 };
 
 Table.propTypes = {
-    cellTextColor : PropTypes.string,
-    headerTextColor: PropTypes.string,
-    cellBorderColor: PropTypes.string,
-    backgroundColor: PropTypes.string,
-    headerBorderColor: PropTypes.string,
-    headerBackgroundColor: PropTypes.string,
-    borderWidth: PropTypes.oneOf(["thin", 'medium', 'thick']),
-    cellPadding: PropTypes.oneOf(['small' , 'medium' , 'large']),
-    headers: PropTypes.arrayOf(PropTypes.string).isRequired,
-    rows: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-}
+  borderWidth: PropTypes.oneOf(["thin", "medium", "thick"]),
+  cellPadding: PropTypes.oneOf(["small", "medium", "large"]),
+  headers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  rows: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  theme: PropTypes.oneOf(["Dark", "Light"]),
+  headerTextColor: PropTypes.string,
+  headerBackgroundColor: PropTypes.string,
+  headerBorderColor: PropTypes.string,
+  cellTextColor: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  cellBorderColor: PropTypes.string,
+  onRowClick: PropTypes.func,
+  onHeaderClick: PropTypes.func,
+};
