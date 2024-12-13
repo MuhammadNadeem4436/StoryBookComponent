@@ -16,8 +16,8 @@ export const Table = ({
   cellTextColor,
   backgroundColor,
   cellBorderColor,
-  onRowClick,
-  onHeaderClick,
+  onClickRow,
+  onClickHeader,
 }) => {
   useEffect(() => {
     if (headers.length < 1) {
@@ -58,7 +58,7 @@ export const Table = ({
                   headerBorderColor || themeStyle.headerBorderColor
                 }`,
               }}
-              onClick={() => onHeaderClick(columnIndex)}
+              onClick={() => onClickHeader(columnIndex)}
             >
               {h}
             </div>
@@ -75,7 +75,7 @@ export const Table = ({
                       cellBorderColor || themeStyle.cellBorderColor
                     }`,
                   }}
-                  onClick={() => onRowClick(rowIndex, columnIndex)}
+                  onClick={() => onClickRow(rowIndex, columnIndex)}
                 >
                   {r[columnIndex]}
                 </div>
@@ -100,6 +100,6 @@ Table.propTypes = {
   cellTextColor: PropTypes.string,
   backgroundColor: PropTypes.string,
   cellBorderColor: PropTypes.string,
-  onRowClick: PropTypes.func,
-  onHeaderClick: PropTypes.func,
+  onClickRow: PropTypes.func,
+  onClickHeader: PropTypes.func,
 };

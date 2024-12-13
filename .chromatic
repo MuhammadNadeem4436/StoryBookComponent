@@ -1,0 +1,5 @@
+{
+  "storybook": {
+    "buildScript": "npm run build-storybook"
+  }
+}
